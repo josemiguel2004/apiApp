@@ -1,25 +1,64 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
+    <ion-title color="danger" >
       Previsão do Tempo
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" color="light">
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle>Previsão em:</ion-card-subtitle>
-      <ion-card-title class="ion-text-end">Lençóis Paulista-SP</ion-card-title>
+      <ion-card-subtitle color="primary">Previsão em:</ion-card-subtitle>
+      <ion-card-title class="ion-text-start">{{previsao?.results?.city}}
+        <h5>Data:{{previsao?.results?.date}}</h5>
+        <h5>hora:{{previsao?.results?.time}}</h5>
+        <h4>Período:{{previsao?.results?.currently}}</h4>
+        <span class="ion-float-end">{{previsao?.results?.temp}}°C</span>
+        <p>{{previsao?.results?.sunrise}}<ion-icon name="sunny-outline"></ion-icon></p>
+        <p>{{previsao?.results?.sunset}} <ion-icon name="partly-sunny-outline"></ion-icon></p>
+      </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <ion-item lines="none">
-        <ion-label>
-          Item
+        <ion-label class="descricao">
+          {{previsao?.results?.description}}
         </ion-label>
-        <ion-icon name="partly-sunny"></ion-icon>
+        <ion-icon [name]="buscarIcone(previsao?.results?.conditional_slug)"></ion-icon>
       </ion-item>
+      <span class="ion-float-end umidade">Umidade relativa do ar:{{previsao?.results?.humidity}}%</span>
     </ion-card-content>
   </ion-card>
+
+
+
+  <br>
+  <ion-item-divider>
+    <ion-label color="primary">
+      Próximos dias:
+    </ion-label>
+  </ion-item-divider>
+
+  <table border="1px" >
+
+    <ion-row *ngFor="let dia of previsao?.results?.forecast">
+      <ion-col lines="full"  >
+       <ion-label>{{dia.date}}</ion-label>
+      </ion-col>
+      <ion-col lines="full" >
+        <ion-label>{{dia.weekday}}</ion-label>
+      </ion-col>
+      <ion-col lines="full">
+        <ion-label>Max:{{dia.max}}ºC</ion-label>
+      </ion-col>
+      <ion-col lines="full" >
+        <ion-label>Min:{{dia.min}}ºC</ion-label>
+      </ion-col>
+      <ion-col lines="full" >
+        <ion-label>{{dia.description}}</ion-label>
+      </ion-col>
+    </ion-row>
+    </table>
+
 </ion-content>
